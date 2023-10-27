@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(28,32,40);
+}
+
+#txt {
+    color: white;
+}
+
+h1, h2, h3, h4 {
+    color: white;
+    padding-left: 60px;
+}
+
+
+#slide {
+    margin-bottom: 50px;
+}
+
+.carousel {
+    box-shadow: 0 4px 8px rgba(0.6, 0.6, 0.6, 0.6);
+}
+/*
+#bloc1 {
+    background-color: green;
+    margin: 10px;
+    border-radius: 30px;
+}
+
+#div2 {
+    background-color: grey;
+    border-radius: 30px;
+    min-width: 100px;
+    min-height: 300;
+}
+
+#sec {
+    background-color: blue;
+}
+
+#cont {
+    background-color: orange;
+}
+*/
+
+.bloc-container {
+    /*background-color: rgb(32,32,39);*/
+    background-color: rgb(52,52,60);
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 0 8px 8px rgba(0.6, 0.6, 0.6, 0.6);
+}
+
+.div2 {
+    border-radius: 30px;
+    min-width: 100px;
+    min-height: 100px; /* Ajoutez "px" pour la valeur de min-height */
+    cursor: pointer;
+}
+
+#sec {
+    /*background-color: blue;*/
+}
+
+#listCont {
+    background-color: blue;
+    width: 250px;
+    height: 140px;
+}
+
+
+
+.card {
+    margin: 10px;
+    box-shadow: 0 8px 8px rgba(0.6, 0.6, 0.6, 0.6);
+}
+
+
+
+#list {
+    position: relative;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.scroll-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#listCard {
+    margin: 10px;
+    /*display: inline-block;*/
+    transition: transform 0.3s ease; /* Ajoute une transition fluide au déplacement */
+}
+
+#nextButton, #prevButton {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
