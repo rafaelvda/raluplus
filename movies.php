@@ -52,12 +52,12 @@
         $sparqlQuery = '
         SELECT ?itemLabel ?pic
         WHERE {
-          ?item wdt:P1476 ?itemLabel. # Title
-          ?item wdt:P31 wd:Q5398426.  # Television series
-          ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
-          OPTIONAL{
+        ?item wdt:P1476 ?itemLabel. # Title
+        ?item wdt:P31 wd:Q11424.  # Film
+        ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+            OPTIONAL{
             ?item wdt:P154 ?pic.
-          }
+        }
         }
         ORDER BY DESC (?pic)
         ';
