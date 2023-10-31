@@ -18,72 +18,74 @@
 
     <Section id="list">
     <div class="row mb-3 text-leading">
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3 themed-grid-col">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-        </div>
+        <?php
+
+        function fetchWikidataResults($sparqlQuery) {
+            $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
+
+            // Utilisez cURL pour récupérer les données JSON
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+            curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
+
+            $result = curl_exec($ch);
+
+            // Afficher les informations de la requête
+            //echo 'Informations de la requête cURL :';
+            //var_dump(curl_getinfo($ch));
+
+            if (curl_errno($ch)) {
+                echo 'Erreur cURL : ' . curl_error($ch);
+            }/* else {
+                echo 'Contenu de la réponse : ' . $result;
+            }*/
+
+            curl_close($ch);
+
+            $data = json_decode($result, true);
+
+            return $data;
+        }
+
+        // Utilisez votre requête SPARQL ici pour récupérer les données
+        $sparqlQuery = '
+        SELECT ?itemLabel ?pic
+        WHERE {
+          ?item wdt:P1476 ?itemLabel. # Title
+          ?item wdt:P31 wd:Q5398426.  # Television series
+          ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+          OPTIONAL{
+            ?item wdt:P154 ?pic.
+          }
+        }
+        ORDER BY DESC (?pic)
+        ';
+
+        $searchResults = fetchWikidataResults($sparqlQuery);
+
+        //var_dump($searchResults);
+
+        // Afficher les résultats dans des cartes HTML
+        foreach ($searchResults['results']['bindings'] as $result) {
+            $title = $result['itemLabel']['value'];
+            $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+
+            $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+            // Générez une carte HTML pour chaque résultat
+            echo '<div class="col-md-3 themed-grid-col">';
+            echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+            echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+            echo '<div class="card-body">';
+            echo '<h6 class="card-title">' . $title . '</h6>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+        }
+        ?>
     </div>
-   </Section>
+</Section>
 
     <?php require 'commun/footer.html'?>
 
