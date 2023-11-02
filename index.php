@@ -151,7 +151,7 @@
                 }
             }
             ORDER BY DESC(BOUND(?pic)) DESC(?date)
-            LIMIT 4
+            LIMIT 5
             ';
 
             $searchResults = fetchWikidataResults($sparqlQuery);
@@ -222,7 +222,7 @@
     </script>
     -->
 
-    <h4 class="mt-4">Action et aventure</h4>
+    <h4 class="mt-4">Drama</h4>
     <section id="list">
         <div class="row" id="listCard">
         <?php
@@ -230,15 +230,17 @@
             $sparqlQuery = '
             SELECT ?itemLabel ?pic
             WHERE {
-            ?item wdt:P1476 ?itemLabel. # Title
-            ?item wdt:P31 wd:Q5398426.  # Television series
-            ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
-            OPTIONAL{
-                ?item wdt:P154 ?pic.
-            }
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P136 wd:Q1366112. # GenreDrama
+                #?item wdt:P31 wd:Q11424.  # Film
+                ?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
             }
             ORDER BY DESC (?pic)
-            LIMIT 4
+            LIMIT 5
             ';
 
             $searchResults = fetchWikidataResults($sparqlQuery);
@@ -260,7 +262,7 @@
         </div>
     </section>
 
-    <h4 class="mt-4">Salués par la critique</h4>
+    <h4 class="mt-4">Crime</h4>
     <section id="list">
         <div class="row" id="listCard">
         <?php
@@ -268,15 +270,57 @@
             $sparqlQuery = '
             SELECT ?itemLabel ?pic
             WHERE {
-            ?item wdt:P1476 ?itemLabel. # Title
-            ?item wdt:P31 wd:Q11424.  # Film
-            ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P136 wd:Q9335577. # GenreDrama
+                #?item wdt:P31 wd:Q11424.  # Film
+                ?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
                 OPTIONAL{
-                ?item wdt:P154 ?pic.
-            }
+                    ?item wdt:P154 ?pic.
+                }
             }
             ORDER BY DESC (?pic)
-            LIMIT 4
+            LIMIT 5
+            ';
+
+            $searchResults = fetchWikidataResults($sparqlQuery);
+
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<div class="card-body">';
+                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </section>
+
+    <h4 class="mt-4">Romance</h4>
+    <section id="list">
+        <div class="row" id="listCard">
+        <?php
+
+            $sparqlQuery = '
+            SELECT ?itemLabel ?pic
+            WHERE {
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P136 wd:Q1054574. # GenreDrama
+                ?item wdt:P31 wd:Q11424.  # Film
+                #?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
+            }
+            ORDER BY DESC (?pic)
+            LIMIT 5
             ';
 
             $searchResults = fetchWikidataResults($sparqlQuery);
