@@ -50,16 +50,17 @@
 
         // Utilisez votre requête SPARQL ici pour récupérer les données
         $sparqlQuery = '
-        SELECT ?itemLabel ?pic
-        WHERE {
-          ?item wdt:P1476 ?itemLabel. # Title
-          ?item wdt:P31 wd:Q5398426.  # Television series
-          ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
-          OPTIONAL{
-            ?item wdt:P154 ?pic.
-          }
-        }
-        ORDER BY DESC (?pic)
+        SELECT ?itemLabel ?pic ?date
+            WHERE {
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P580 ?date.
+                ?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
+            }
+            ORDER BY DESC(BOUND(?pic)) DESC(?date)
         ';
 
         $searchResults = fetchWikidataResults($sparqlQuery);
