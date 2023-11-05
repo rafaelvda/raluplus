@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="col-2 p-2 bloc-container">
-                    <div class="p-3 div2 2d-flex justify-content-center" onclick="redirectToPage('pixar.php')">
+                    <div class="p-3 div2 2d-flex justify-content-center">
                         <img src="assets/cat/pixar.png" width="130" height="auto">
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="col-2 p-2 bloc-container">
-                    <div class="p-3 div2 d-flex justify-content-center" onclick="redirectToPage('national.php')">
+                    <div class="p-3 div2 d-flex justify-content-center">
                         <img src="assets/cat/natgeo.png" width="140" height="auto">
                     </div>
                 </div>
