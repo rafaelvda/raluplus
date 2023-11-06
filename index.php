@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="col-2 p-2 bloc-container">
-                    <div class="p-3 div2 2d-flex justify-content-center" onclick="redirectToPage('pixar.php')">
+                    <div class="p-3 div2 2d-flex justify-content-center">
                         <img src="assets/cat/pixar.png" width="130" height="auto">
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="col-2 p-2 bloc-container">
-                    <div class="p-3 div2 d-flex justify-content-center" onclick="redirectToPage('national.php')">
+                    <div class="p-3 div2 d-flex justify-content-center">
                         <img src="assets/cat/natgeo.png" width="140" height="auto">
                     </div>
                 </div>
@@ -114,46 +114,64 @@
     </script>
 
     <h4 class="mt-4">Nouveau sur Ralu +</h4>
-    <section id="list">
+    <Section id="list">
         <div class="row overflow-auto" id="listCard">
-            <div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage('details.php')">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
+            <?php
+
+            function fetchWikidataResults($sparqlQuery) {
+                $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
+
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+                curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
+
+                $result = curl_exec($ch);
+
+                if (curl_errno($ch)) {
+                    echo 'Erreur cURL : ' . curl_error($ch);
+                }
+
+                curl_close($ch);
+                $data = json_decode($result, true);
+
+                return $data;
+            }
+
+            $sparqlQuery = '
+            SELECT ?itemLabel ?pic ?date
+            WHERE {
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P580 ?date.
+                #?item wdt:P31 wd:Q11424.  # Film
+                ?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
+            }
+            ORDER BY DESC(BOUND(?pic)) DESC(?date)
+            LIMIT 5
+            ';
+
+            $searchResults = fetchWikidataResults($sparqlQuery);
+
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<div class="card-body">';
+                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
         </div>
-    </section>
+    </Section>
 
 <!--
     <section id="list">
@@ -204,63 +222,123 @@
     </script>
     -->
 
-    <h4 class="mt-4">Action et aventure</h4>
+    <h4 class="mt-4">Drama</h4>
     <section id="list">
         <div class="row" id="listCard">
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
+        <?php
+
+            $sparqlQuery = '
+            SELECT ?itemLabel ?pic
+            WHERE {
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P136 wd:Q1366112. # GenreDrama
+                #?item wdt:P31 wd:Q11424.  # Film
+                ?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
+            }
+            ORDER BY DESC (?pic)
+            LIMIT 5
+            ';
+
+            $searchResults = fetchWikidataResults($sparqlQuery);
+
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<div class="card-body">';
+                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
         </div>
     </section>
 
-    <h4 class="mt-4">Salués par la critique</h4>
+    <h4 class="mt-4">Crime</h4>
     <section id="list">
         <div class="row" id="listCard">
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
-            <div class="card text-bg-dark" style="width:250px;">
-                <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">Card title</h6>
-                </div>
-            </div>
+        <?php
+
+            $sparqlQuery = '
+            SELECT ?itemLabel ?pic
+            WHERE {
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P136 wd:Q9335577. # GenreDrama
+                #?item wdt:P31 wd:Q11424.  # Film
+                ?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
+            }
+            ORDER BY DESC (?pic)
+            LIMIT 5
+            ';
+
+            $searchResults = fetchWikidataResults($sparqlQuery);
+
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<div class="card-body">';
+                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </section>
+
+    <h4 class="mt-4">Romance</h4>
+    <section id="list">
+        <div class="row" id="listCard">
+        <?php
+
+            $sparqlQuery = '
+            SELECT ?itemLabel ?pic
+            WHERE {
+                ?item wdt:P1476 ?itemLabel. # Title
+                ?item wdt:P136 wd:Q1054574. # GenreDrama
+                ?item wdt:P31 wd:Q11424.  # Film
+                #?item wdt:P31 wd:Q5398426.  # Television series
+                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                OPTIONAL{
+                    ?item wdt:P154 ?pic.
+                }
+            }
+            ORDER BY DESC (?pic)
+            LIMIT 5
+            ';
+
+            $searchResults = fetchWikidataResults($sparqlQuery);
+
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<div class="card-body">';
+                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
         </div>
     </section>
 
