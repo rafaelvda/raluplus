@@ -8,7 +8,7 @@
     <title>Films</title>
 </head>
 <body>
-    <?php require 'commun/header.html'?>
+    <?php require 'commun/header.php'?>
 
     <div style="height: 100px;">
         <div class="mh-100" style="width: 100px; height: 200px;"></div>

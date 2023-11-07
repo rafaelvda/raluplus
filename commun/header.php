@@ -40,19 +40,29 @@
           <a id="txt" class="nav-link text-uppercase px-3 fw-bold" href="series.php">Séries</a>
         </li>
       </ul>
-      <div class="dropdown">
-          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-            </svg>
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#">Profil</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Se deconnete</a></li>
-          </ul>
-        </div>
+      <?php
+          if(isset($_SESSION['username']))
+          echo '
+            <li class="nav-item">
+              <form action="connexion.php?action=destroy" method="POST">
+                <input type="submit" value="Se déconnecter" class="btn btn-outline-danger">                
+              </form>
+            </li>';
+          else echo '
+          <li class="nav-item">
+            <form action="inscription.php">
+              <input type="submit" value="Inscription" class="btn btn-outline-warning mr-1">                
+            </form>
+          </li>
+          <li class="nav-item">
+            <span style="margin-right: 5px;"></span> 
+          </li>
+          <li class="nav-item">
+            <form action="connexion.php">
+              <input type="submit" value="Connexion" class="btn btn-outline-success">                
+            </form>
+          </li>';
+          ?>
     </div>
   </div>
 </nav>
