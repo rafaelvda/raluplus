@@ -8,7 +8,7 @@
     <title>Disney</title>
 </head>
 <body>
-    <?php require 'commun/header.html'?>
+    <?php require 'commun/header.php'?>
 
     <div style="height: 65px;">
         <div class="mh-100" style="width: 100px; height: 65px;"></div>
