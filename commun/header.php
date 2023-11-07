@@ -40,20 +40,29 @@
           <a id="txt" class="nav-link text-uppercase px-3 fw-bold" href="series.php">Séries</a>
         </li>
       </ul>
-      <!--<form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>-->
-      <div class="flex-shrink-0 dropdown">
-          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#">Profil</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Se deconnete</a></li>
-          </ul>
-        </div>
+      <?php
+          if(isset($_SESSION['username']))
+          echo '
+            <li class="nav-item">
+              <form action="connexion.php?action=destroy" method="POST">
+                <input type="submit" value="Se déconnecter" class="btn btn-outline-danger">                
+              </form>
+            </li>';
+          else echo '
+          <li class="nav-item">
+            <form action="inscription.php">
+              <input type="submit" value="Inscription" class="btn btn-outline-warning mr-1">                
+            </form>
+          </li>
+          <li class="nav-item">
+            <span style="margin-right: 5px;"></span> 
+          </li>
+          <li class="nav-item">
+            <form action="connexion.php">
+              <input type="submit" value="Connexion" class="btn btn-outline-success">                
+            </form>
+          </li>';
+          ?>
     </div>
   </div>
 </nav>
