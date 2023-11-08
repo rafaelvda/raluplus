@@ -17,38 +17,36 @@
     </div>
 
     <div class="container">
-		<div class="card-header">
-                <h2 class="text-center">Inscription</h2>
-        </div>
-			<div class="card">
-                <div class="card-body">
-                    <form method="post" action="inscription.php">
-                        <?php include('errors.php'); ?>
-                        <div class="mb-2">
-                            <label for="username" class="form-label">Nom d'utilisateur</label>
-                            <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>">
-                        </div>
-                        <div class="mb-2">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
-                        </div>
-                        <div class="mb-2">
-                            <label for="password_1" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="password_1" name="password_1">
-                        </div>
-                        <div class="mb-2">
-                            <label for="password_2" class="form-label">Confirmer le mot de passe</label>
-                            <input type="password" class="form-control" id="password_2" name="password_2">
-                        </div>
-                        <div class="mb-2">
-                            <button type="submit" class="btn btn-primary" name="reg_user">S'inscrire</button>
-                        </div>
-                        <p class="text-center">
-                            Déjà membre ? <a href="connexion.php">Connexion</a>
-                        </p>
-                    </form>
-                </div>
+		<h2 class="text-center">Inscription</h2>
+        <div class="card mx-auto" style="width:40%;">
+            <div class="card-body">
+                <form method="post" action="inscription.php">
+                    <?php include('errors.php'); ?>
+                    <div class="mb-2">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>">
+                    </div>
+                    <div class="mb-2">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
+                    </div>
+                    <div class="mb-2">
+                        <label for="password_1" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password_1" name="password_1">
+                    </div>
+                    <div class="mb-2">
+                        <label for="password_2" class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="password_2" name="password_2">
+                    </div>
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-primary" name="reg_user">S'inscrire</button>
+                    </div>
+                    <p class="text-center">
+                        Déjà membre ? <a href="connexion.php">Connexion</a>
+                    </p>
+                </form>
             </div>
+        </div>
     </div>
 
     <?php require 'commun/footer.html'?>

@@ -29,7 +29,7 @@
 		<div class="card-header">
             <h2 class="text-center">Connexion</h2>
         </div>
-        <div class="card">
+        <div class="card mx-auto" style="width:40%;">
             <div class="card-body">
                 <form method="post" action="connexion.php">
                     <?php include('errors.php'); ?>
@@ -50,6 +50,10 @@
                 </form>
             </div>
         </div>
+    </div>
+
+	<div style="height: 100px;">
+        <div class="mh-100" style="width: 100px; height: 200px;"></div>
     </div>
 
     <?php require 'commun/footer.html'?>
