@@ -99,7 +99,7 @@
                 // Générez une carte HTML pour chaque résultat
                 echo '<div class="col-md-3 themed-grid-col">';
                 echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
-                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
                 echo '<h6 class="card-title">' . $title . '</h6>';
                 echo '</div>';

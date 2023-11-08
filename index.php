@@ -88,7 +88,7 @@ session_start();
 
     <h4 class="mt-4">Nouveau sur Ralu +</h4>
     <Section id="list">
-        <div class="row overflow-auto" id="listCard">
+        <div class="row mb-3 text-leading" id="listCard">
             <?php
 
             function fetchWikidataResults($sparqlQuery) {
@@ -136,7 +136,7 @@ session_start();
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
                 echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
-                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
                 echo '<h6 class="card-title">' . $title . '</h6>';
                 echo '</div>';
@@ -176,7 +176,7 @@ session_start();
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
                 echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
-                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
                 echo '<h6 class="card-title">' . $title . '</h6>';
                 echo '</div>';
@@ -216,7 +216,7 @@ session_start();
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
                 echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
-                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
                 echo '<h6 class="card-title">' . $title . '</h6>';
                 echo '</div>';
@@ -256,7 +256,7 @@ session_start();
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
                 echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
-                echo '<img src="' . $imageSrc . '" class="card-img-top" alt="...">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
                 echo '<h6 class="card-title">' . $title . '</h6>';
                 echo '</div>';
