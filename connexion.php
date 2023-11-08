@@ -1,12 +1,12 @@
 <?php include('commun/database.php') ?>
 
 <?php
-	$action = isset($_GET["action"]) ? $_GET["action"] : false;
-	echo $action;
-	if($action == 'destroy'){
-		session_destroy();
-		header("Location: http://localhost/raluplus/index.php");
-	}
+    $action = isset($_GET["action"]) ? $_GET["action"] : false;
+    echo $action;
+    if ($action == 'destroy') {
+        session_destroy();
+        header("Location: http://localhost/raluplus/index.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -25,27 +25,32 @@
         <div class="mh-100" style="width: 100px; height: 200px;"></div>
     </div>
 
-    <div class="header">
-  	    <h2>Connexion</h2>
+    <div class="container">
+		<div class="card-header">
+            <h2 class="text-center">Connexion</h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="connexion.php">
+                    <?php include('errors.php'); ?>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary" name="login_user">Se connecter</button>
+                    </div>
+                    <p class="text-center">
+                        Pas encore membre ? <a href="inscription.php">Inscription</a>
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <form method="post" action="connexion.php">
-  	    <?php include('errors.php'); ?>
-  	    <div class="input-group">
-  		    <label>Nom d'utilisateur</label>
-  		    <input type="text" name="username" >
-  	    </div>
-  	    <div class="input-group">
-  		    <label>Mot de passe</label>
-  		    <input type="password" name="password">
-  	    </div>
-  	    <div class="input-group">
-  		    <button type="submit" class="btn" name="login_user">Se connecter</button>
-  	    </div>
-  	    <p>
-  		    Pas encore membre ? <a href="inscription.php">Inscription</a>
-  	    </p>
-    </form>
 
     <?php require 'commun/footer.html'?>
 </body>

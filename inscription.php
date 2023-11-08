@@ -12,39 +12,44 @@
 <body>
     <?php require 'commun/header.php'?>
 
-	<div style="height: 100px;">
+    <div style="height: 100px;">
         <div class="mh-100" style="width: 100px; height: 200px;"></div>
     </div>
 
-	<div class="header">
-  		<h2>Inscription</h2>
-  	</div>
-    
-    <form method="post" action="inscription.php">
-  	<?php include('errors.php'); ?>
-  	<div class="input-group">
-  	  <label>Nom d'utilisateur</label>
-  	  <input type="text" name="username" value="<?php echo $username; ?>">
-  	</div>
-  	<div class="input-group">
-  	  <label>Email</label>
-  	  <input type="email" name="email" value="<?php echo $email; ?>">
-  	</div>
-  	<div class="input-group">
-  	  <label>Mot de passe</label>
-  	  <input type="password" name="password_1">
-  	</div>
-  	<div class="input-group">
-  	  <label>Confirmer le mot de passe</label>
-  	  <input type="password" name="password_2">
-  	</div>
-  	<div class="input-group">
-  	  <button type="submit" class="btn" name="reg_user">S'inscrire</button>
-  	</div>
-  	<p>
-  		Déjà membre ? <a href="connexion.php">Connexion</a>
-  	</p>
-  </form>
+    <div class="container">
+		<div class="card-header">
+                <h2 class="text-center">Inscription</h2>
+        </div>
+			<div class="card">
+                <div class="card-body">
+                    <form method="post" action="inscription.php">
+                        <?php include('errors.php'); ?>
+                        <div class="mb-2">
+                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>">
+                        </div>
+                        <div class="mb-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
+                        </div>
+                        <div class="mb-2">
+                            <label for="password_1" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password_1" name="password_1">
+                        </div>
+                        <div class="mb-2">
+                            <label for="password_2" class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" id="password_2" name="password_2">
+                        </div>
+                        <div class="mb-2">
+                            <button type="submit" class="btn btn-primary" name="reg_user">S'inscrire</button>
+                        </div>
+                        <p class="text-center">
+                            Déjà membre ? <a href="connexion.php">Connexion</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+    </div>
 
     <?php require 'commun/footer.html'?>
 </body>

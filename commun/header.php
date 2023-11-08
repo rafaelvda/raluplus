@@ -51,11 +51,11 @@
           else echo '
           <li class="nav-item">
             <form action="inscription.php">
-              <input type="submit" value="Inscription" class="btn btn-outline-warning mr-1">                
+              <input type="submit" value="Inscription" class="btn btn-outline-light mr-1">                
             </form>
           </li>
           <li class="nav-item">
-            <span style="margin-right: 5px;"></span> 
+            <span style="margin-right: 2px;"></span> 
           </li>
           <li class="nav-item">
             <form action="connexion.php">

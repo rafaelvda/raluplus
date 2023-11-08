@@ -21,28 +21,6 @@ h1, h2, h3, h4 {
 .carousel {
     box-shadow: 0 4px 8px rgba(0.6, 0.6, 0.6, 0.6);
 }
-/*
-#bloc1 {
-    background-color: green;
-    margin: 10px;
-    border-radius: 30px;
-}
-
-#div2 {
-    background-color: grey;
-    border-radius: 30px;
-    min-width: 100px;
-    min-height: 300;
-}
-
-#sec {
-    background-color: blue;
-}
-
-#cont {
-    background-color: orange;
-}
-*/
 
 .bloc-container {
     /*background-color: rgb(32,32,39);*/
@@ -102,3 +80,4 @@ h1, h2, h3, h4 {
     transform: translateY(-50%);
     cursor: pointer;
 }
+
