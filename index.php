@@ -46,39 +46,7 @@ session_start();
             </button>
         </div>
     </div>
-<!--
-    <section id="sec">
-        <div class="container px-4 text-center align-items-center" id="cont">
-            <div class="row gx-5 align-items-center justify-content-between">
-                <div class="col-2 p-2 align-self-center" id="bloc1">
-                    <div class="p-3" id="div2">
-                        <img src="assets/cat/disney.png" width="130" height="auto">
-                    </div>
-                </div>
-                <div class="col-2 p-2" id="bloc1">
-                    <div class="p-3" id="div2">
-                        <img src="assets/cat/pixar.png" width="130" height="auto">
-                    </div>
-                </div>
-                <div class="col-2 p-2" id="bloc1">
-                    <div class="p-3" id="div2">
-                        <img src="assets/cat/marvel.png" width="130" height="auto">
-                    </div>
-                </div>
-                <div class="col-2 p-2" id="bloc1">
-                    <div class="p-3" id="div2">
-                        <img src="assets/cat/starwars.png" width="130" height="auto">
-                    </div>
-                </div>
-                <div class="col-2 p-2" id="bloc1">
-                    <div class="p-3" id="div2">
-                        <img src="assets/cat/star.png" width="130" height="auto">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
--->
+
     <section id="sec">
         <div class="container px-4 text-center align-items-center" id="cont">
             <div class="row gx-5 align-items-center justify-content-between">
@@ -177,55 +145,6 @@ session_start();
             ?>
         </div>
     </Section>
-
-<!--
-    <section id="list">
-        <div class="scroll-container">
-        <button id="prevButton">Previous</button>
-            <div class="row" id="listCard">
-                <div class="card text-bg-dark" style="width:250px;">
-                    <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-                <div class="card text-bg-dark" style="width:250px;">
-                    <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-                <div class="card text-bg-dark" style="width:250px;">
-                    <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-                <div class="card text-bg-dark" style="width:250px;">
-                    <img src="assets/cat/starwars.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Card title</h6>
-                    </div>
-                </div>
-            </div>
-            <button id="nextButton">Next</button>
-        </div>
-    </section>
-
-    <script>
-        document.getElementById('nextButton').addEventListener('click', function () {
-            let listCard = document.getElementById('listCard');
-            let scrollAmount = 250; // Ajustez la valeur selon votre besoin
-            listCard.style.transform = `translateX(-${scrollAmount}px)`;
-        });
-
-        document.getElementById('prevButton').addEventListener('click', function () {
-            let listCard = document.getElementById('listCard');
-            let scrollAmount = 250; // Ajustez la valeur selon votre besoin
-            listCard.style.transform = `translateX(${scrollAmount}px)`;
-        });
-    </script>
-    -->
 
     <h4 class="mt-4">Drama</h4>
     <section id="list">
