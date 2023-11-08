@@ -17,7 +17,7 @@
     </div>
 
     <div class="container">
-		<h2 class="text-center">Inscription</h2>
+		<p class="fs-2 text-white text-center">Inscription</p>
         <div class="card mx-auto" style="width:40%;">
             <div class="card-body">
                 <form method="post" action="inscription.php">

@@ -27,7 +27,7 @@
 
     <div class="container">
 		<div class="card-header">
-            <h2 class="text-center">Connexion</h2>
+			<p class="fs-2 text-white text-center">Connexion</p>
         </div>
         <div class="card mx-auto" style="width:40%;">
             <div class="card-body">
