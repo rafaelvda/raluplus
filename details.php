@@ -37,13 +37,8 @@
 
             return $data;
         }
-
-        // Vérifiez si le formulaire a été soumis
-        //if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérez la valeur de l'entrée de l'utilisateur
             $searchQuery = "Thor: Ragnarok";
 
-            // Utilisez votre requête SPARQL ici pour récupérer les données
             $sparqlQuery = "
             SELECT ?itemLabel ?pic ?note ?cost ?award ?duration ?dir ?date
             WHERE {
@@ -80,23 +75,22 @@
 
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
-                // Générez une carte HTML pour chaque résultat
-                echo '<img id="info" src="' . $imageSrc . '" class="rounded bg-white float-start">';
-                echo '<h4 class="text-warning">Disponible dès maintenant en IMAX Enhanced</h4>';
                 echo '<section id="info">';
+                echo '<img id="info" src="' . $imageSrc . '" class="rounded bg-white">';
+                echo '<p class="fs-5 fw-bold text-warning">Disponible dès maintenant en IMAX Enhanced</p>';
                 echo '<p id="txt" class="fs-6">' . $date . ' - ' . $duration . ' min</p>';
                 echo '<p id="txt" class="fs-6">Genre</p>';
-                echo '</section>';
-                echo '<section id="infoBtn">';
                 echo '<button type="button" class="btn btn-light fw-bold">LECTURE</button>';
                 echo '<span class="mx-1"></span>';
                 echo '<button type="button" class="btn btn-outline-light fw-bold">BANDE-ANNONCE</button>';
                 echo '<span class="mx-2"></span>';
                 echo '<button type="button" class="btn btn-outline-light fw-bold">+</button>';
                 echo '</section>';
+
                 echo '<div style="height: 100px;">';
                 echo '<div class="mh-100" style="width: 100px; height: 200px;"></div>';
                 echo '</div>';
+                
                 echo '<h3 class="text-uppercase">Détails</h3>';
                 echo '<section id="info">';
                 echo '<p id="txt" class="fs-6">Durée : ' . $duration . ' min</p>';
@@ -108,41 +102,8 @@
                 echo '<p id="txt" class="fs-6">Note : ' . $note . '</p>';
                 echo '</section>';
             }
-        //}
         ?>
-<!--
-        <img id="info" src="..." class="rounded float-start" alt="...">
 
-        <h4 class="text-warning">Disponible dès maintenant en IMAX Enhanced</h4>
-
-        <section id="info">
-            <p id="txt" class="fs-6">Année - Durée</p>
-            <p id="txt" class="fs-6">Genre</p>
-        </section>
-        
-        <section id="infoBtn">
-            <button type="button" class="btn btn-light fw-bold">LECTURE</button>
-            <button type="button" class="btn btn-outline-light fw-bold">BANDE-ANNONCE</button>
-            <span class="mx-2"></span>
-            <button type="button" class="btn btn-outline-light fw-bold">+</button>
-        </section>
-
-        <div style="height: 100px;">
-            <div class="mh-100" style="width: 100px; height: 200px;"></div>
-        </div>
-
-        <h3 class="text-uppercase">Détails</h3>
-
-        <section id="info">
-            <p id="txt" class="fs-6">Durée : </p>
-            <p id="txt" class="fs-6">Date de sortie : </p>
-            <p id="txt" class="fs-6">Genre : </p>
-            <p id="txt" class="fs-6">Réalisation : </p>
-            <p id="txt" class="fs-6">Budget : </p>
-            <p id="txt" class="fs-6">Récompense : </p>
-            <p id="txt" class="fs-6">Note : </p>
-        </section>
-        -->
     <?php require 'commun/footer.html'?>
 </body>
 </html>
