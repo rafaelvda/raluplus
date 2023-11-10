@@ -37,9 +37,10 @@
 
             return $data;
         }
-            $searchQuery = "Thor: Ragnarok";
 
-            $sparqlQuery = "
+        $titleToSearch = isset($_GET['title']) ? urldecode($_GET['title']) : '';
+
+        $sparqlQuery = "
             SELECT ?itemLabel ?pic ?note ?cost ?award ?duration ?dir ?date
             WHERE {
                 ?item wdt:P1476 ?itemLabel. # Title
@@ -47,14 +48,17 @@
                 ?item wdt:P57 ?dir.
                 ?item wdt:P31 wd:Q11424.  # Film
                 ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
-                FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$searchQuery')))
+                FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$titleToSearch'))).
                     OPTIONAL{
-                    ?item wdt:P154 ?pic.
-                    ?item wdt:P1258 ?note.
-                    #?item wdt:P166 ?award.
-                    ?item wdt:P2130 ?cost.
-                    #?item wdt:P580 ?date.
-                }
+                      ?item wdt:P154 ?pic}.
+                      OPTIONAL{
+                      ?item wdt:P1258 ?note}.
+                        OPTIONAL{
+                      ?item wdt:P166 ?award}.
+                          OPTIONAL{
+                      ?item wdt:P2130 ?cost}.
+                            OPTIONAL{
+                      ?item wdt:P580 ?date}.
             }
             ORDER BY DESC (?pic)
             ";
@@ -76,7 +80,7 @@
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
                 echo '<section id="info">';
-                echo '<img id="info" src="' . $imageSrc . '" class="rounded bg-white">';
+                echo '<img src="' . $imageSrc . '" class="rounded bg-white">';
                 echo '<p class="fs-5 fw-bold text-warning">Disponible dès maintenant en IMAX Enhanced</p>';
                 echo '<p id="txt" class="fs-6">' . $date . ' - ' . $duration . ' min</p>';
                 echo '<p id="txt" class="fs-6">Genre</p>';
