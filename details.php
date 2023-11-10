@@ -1,3 +1,12 @@
+<?php
+  session_start();
+  
+  if(!isset($_SESSION["username"])){
+    header("Location: connexion.php");
+    exit(); 
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,22 +23,144 @@
         <div class="mh-100" style="width: 100px; height: 200px;"></div>
     </div>
 
-    <h1>Logo</h1>
-    <h2>Titre</h2>
+    <?php
 
-    <h3>Année</h3>
-    <h3>Durée</h3>
-    <h3>Genre</h3>
+        function fetchWikidataResults($sparqlQuery) {
+            $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
 
-    <h2>Synopsis</h2>
+            // Utilisez cURL pour récupérer les données JSON
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+            curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
 
-    <h3>Réalisateur</h3>
-    <h3>Acteurs</h3>
-    <h2>Note</h2>
-    <h2>Prix</h2>
+            $result = curl_exec($ch);
 
-    <h2>Nombre de saisons</h2>
-    <h2>Nombre d'épisodes</h2>
+            if (curl_errno($ch)) {
+                echo 'Erreur cURL : ' . curl_error($ch);
+            }
+
+            curl_close($ch);
+
+            $data = json_decode($result, true);
+
+            return $data;
+        }
+
+        $titleToSearch = isset($_GET['title']) ? urldecode($_GET['title']) : '';
+
+        //var_dump($titleToSearch);
+
+        ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+        $sparqlQuery = "
+            SELECT ?itemLabel ?pic ?note ?award ?cost ?date ?dir ?duration ?episodes ?seasons
+            WHERE {
+            {
+                ?seriesItem wdt:P1476 ?itemLabel. # Title
+                ?seriesItem wdt:P2047 ?duration.
+                ?seriesItem wdt:P57 ?dir.
+                ?seriesItem wdt:P31 wd:Q5398426.  # Television series
+                ?seriesItem wdt:P750 wd:Q54958752.  # Platform = Disney+
+
+                FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$titleToSearch')))
+                OPTIONAL{
+                  ?seriesItem wdt:P1113 ?episodes.  # Episodes
+                  }.
+                OPTIONAL{
+                  ?seriesItem wdt:P2437 ?seasons.  # Seasons
+                  }.
+                OPTIONAL{
+                      ?seriesItem wdt:P154 ?pic}.
+                      OPTIONAL{
+                      ?seriesItem wdt:P1258 ?note}.
+                        OPTIONAL{
+                      ?seriesItem wdt:P166 ?award}.
+                          OPTIONAL{
+                      ?seriesItem wdt:P2130 ?cost}.
+                            OPTIONAL{
+                      ?seriesItem wdt:P580 ?date}.
+            }
+            UNION
+            {
+                ?filmItem wdt:P1476 ?itemLabel. # Title
+                ?filmItem wdt:P2047 ?duration.
+                ?filmItem wdt:P57 ?dir.
+                ?filmItem wdt:P31 wd:Q11424.  # Film
+                ?filmItem wdt:P750 wd:Q54958752.  # Platform = Disney+
+
+                FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$titleToSearch')))
+                OPTIONAL{
+                      ?filmItem wdt:P154 ?pic}.
+                      OPTIONAL{
+                      ?filmItem wdt:P1258 ?note}.
+                        OPTIONAL{
+                      ?filmItem wdt:P166 ?award}.
+                          OPTIONAL{
+                      ?filmItem wdt:P2130 ?cost}.
+                            OPTIONAL{
+                      ?filmItem wdt:P580 ?date}.
+            }
+            }
+            ORDER BY DESC (?pic)
+            ";
+
+            $searchResults = fetchWikidataResults($sparqlQuery);
+
+            //var_dump($searchResults);
+
+            // Afficher les résultats dans des cartes HTML
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $dir = $result['dir']['value'];
+                $duration = $result['duration']['value'];
+
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+                $note = isset($result['note']['value']) ? $result['note']['value'] : '...';
+                $award = isset($result['award']['value']) ? $result['award']['value'] : '...';
+                $cost = isset($result['cost']['value']) ? $result['cost']['value'] : '...';
+                $date = isset($result['date']['value']) ? $result['date']['value'] : '...';
+
+                $episodes = isset($result['episodes']['value']) ? $result['episodes']['value'] : '...';
+                $seasons = isset($result['seasons']['value']) ? $result['seasons']['value'] : '...';
+
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                echo '<section id="info">';
+                echo '<img src="' . $imageSrc . '" class="rounded bg-white">';
+                echo '<p class="fs-5 fw-bold text-warning">Disponible dès maintenant en IMAX Enhanced</p>';
+                echo '<p id="txt" class="fs-6">' . $date . ' - ' . $duration . ' min</p>';
+                echo '<p id="txt" class="fs-6">Genre</p>';
+                echo '<button type="button" class="btn btn-light fw-bold">LECTURE</button>';
+                echo '<span class="mx-1"></span>';
+                echo '<button type="button" class="btn btn-outline-light fw-bold">BANDE-ANNONCE</button>';
+                echo '<span class="mx-2"></span>';
+                echo '<button type="button" class="btn btn-outline-light fw-bold">+</button>';
+                echo '</section>';
+
+                echo '<div style="height: 100px;">';
+                echo '<div class="mh-100" style="width: 100px; height: 200px;"></div>';
+                echo '</div>';
+                
+                echo '<h3 class="text-uppercase">Détails</h3>';
+                echo '<section id="info">';
+                echo '<p id="txt" class="fs-6">Durée : ' . $duration . ' min</p>';
+                echo '<p id="txt" class="fs-6">Date de sortie : ' . $date . '</p>';
+                echo '<p id="txt" class="fs-6">Genre : </p>';
+                echo '<p id="txt" class="fs-6">Réalisation : ' . $dir . '</p>';
+
+                echo '<p id="txt" class="fs-6">Episodes : ' . $episodes . '</p>';
+                echo '<p id="txt" class="fs-6">Saisons : ' . $seasons . '</p>';
+
+                echo '<p id="txt" class="fs-6">Budget : ' . $cost . '</p>';
+                echo '<p id="txt" class="fs-6">Récompense : ' . $award . '</p>';
+                echo '<p id="txt" class="fs-6">Note : ' . $note . '</p>';
+                echo '</section>';
+            }
+        ?>
 
     <?php require 'commun/footer.html'?>
 </body>

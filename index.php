@@ -135,10 +135,11 @@ session_start();
 
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
-                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                $titleToSearch = $title; 
+                echo '<div class="card text-bg-dark" style="width:250px;">';
                 echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
-                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -175,10 +176,11 @@ session_start();
 
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
-                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                $titleToSearch = $title; 
+                echo '<div class="card text-bg-dark" style="width:250px;">';
                 echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
-                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -215,10 +217,11 @@ session_start();
 
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
-                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                $titleToSearch = $title; 
+                echo '<div class="card text-bg-dark" style="width:250px;">';
                 echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
-                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -255,10 +258,11 @@ session_start();
 
                 $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
-                echo '<div class="card text-bg-dark" style="width:250px;" onclick="redirectToPage(\'details.php\')">';
+                $titleToSearch = $title; 
+                echo '<div class="card text-bg-dark" style="width:250px;">';
                 echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
                 echo '<div class="card-body">';
-                echo '<h6 class="card-title">' . $title . '</h6>';
+                echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
                 echo '</div>';
                 echo '</div>';
             }
