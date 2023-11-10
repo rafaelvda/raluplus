@@ -53,12 +53,13 @@
         error_reporting(E_ALL);
 
         $sparqlQuery = "
-            SELECT ?itemLabel ?pic ?note ?award ?cost ?date ?dir ?duration ?episodes ?seasons
+            SELECT ?itemLabel ?pic ?note ?award ?cost ?date ?dir ?duration ?episodes ?seasons ?genre
             WHERE {
             {
                 ?seriesItem wdt:P1476 ?itemLabel. # Title
                 ?seriesItem wdt:P2047 ?duration.
                 ?seriesItem wdt:P57 ?dir.
+                ?seriesItem wdt:P136 ?genre.
                 ?seriesItem wdt:P31 wd:Q5398426.  # Television series
                 ?seriesItem wdt:P750 wd:Q54958752.  # Platform = Disney+
 
@@ -85,6 +86,7 @@
                 ?filmItem wdt:P1476 ?itemLabel. # Title
                 ?filmItem wdt:P2047 ?duration.
                 ?filmItem wdt:P57 ?dir.
+                ?filmItem wdt:P136 ?genre.
                 ?filmItem wdt:P31 wd:Q11424.  # Film
                 ?filmItem wdt:P750 wd:Q54958752.  # Platform = Disney+
 
@@ -110,6 +112,7 @@
                 $title = $result['itemLabel']['value'];
                 $dir = $result['dir']['value'];
                 $duration = $result['duration']['value'];
+                $genre = $result['genre']['value'];
 
                 $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
                 $note = isset($result['note']['value']) ? $result['note']['value'] : '...';
@@ -126,7 +129,7 @@
                 echo '<img src="' . $imageSrc . '" class="rounded bg-white">';
                 echo '<p class="fs-5 fw-bold text-warning">Disponible dès maintenant en IMAX Enhanced</p>';
                 echo '<p id="txt" class="fs-6">' . $date . ' - ' . $duration . ' min</p>';
-                echo '<p id="txt" class="fs-6">Genre</p>';
+                echo '<p id="txt" class="fs-6">Genre : <a href="' . $genre . '">' . $genre . '</a></p>';
                 echo '<button type="button" class="btn btn-light fw-bold">LECTURE</button>';
                 echo '<span class="mx-1"></span>';
                 echo '<button type="button" class="btn btn-outline-light fw-bold">BANDE-ANNONCE</button>';
@@ -142,7 +145,7 @@
                 echo '<section id="info">';
                 echo '<p id="txt" class="fs-6">Durée : ' . $duration . ' min</p>';
                 echo '<p id="txt" class="fs-6">Date de sortie : ' . $date . '</p>';
-                echo '<p id="txt" class="fs-6">Genre : </p>';
+                echo '<p id="txt" class="fs-6">Genre : <a href="' . $genre . '">' . $genre . '</a></p>';
                 echo '<p id="txt" class="fs-6">Réalisation : <a href="' . $dir . '">' . $dir . '</a></p>';
 
                 echo '<p id="txt" class="fs-6">Episodes : ' . $episodes . '</p>';
