@@ -26,77 +26,66 @@
     <h1>Séries</h1>
 
     <Section id="list">
-    <div class="row mb-3 text-leading">
-        <?php
+        <div class="row mb-3 text-leading">
+            <?php
 
-        function fetchWikidataResults($sparqlQuery) {
-            $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
+            function fetchWikidataResults($sparqlQuery) {
+                $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
 
-            // Utilisez cURL pour récupérer les données JSON
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-            curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+                curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
 
-            $result = curl_exec($ch);
+                $result = curl_exec($ch);
 
-            // Afficher les informations de la requête
-            //echo 'Informations de la requête cURL :';
-            //var_dump(curl_getinfo($ch));
-
-            if (curl_errno($ch)) {
-                echo 'Erreur cURL : ' . curl_error($ch);
-            }/* else {
-                echo 'Contenu de la réponse : ' . $result;
-            }*/
-
-            curl_close($ch);
-
-            $data = json_decode($result, true);
-
-            return $data;
-        }
-
-        // Utilisez votre requête SPARQL ici pour récupérer les données
-        $sparqlQuery = '
-        SELECT ?itemLabel ?pic ?date
-            WHERE {
-                ?item wdt:P1476 ?itemLabel. # Title
-                ?item wdt:P580 ?date.
-                ?item wdt:P31 wd:Q5398426.  # Television series
-                ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
-                OPTIONAL{
-                    ?item wdt:P154 ?pic.
+                if (curl_errno($ch)) {
+                    echo 'Erreur cURL : ' . curl_error($ch);
                 }
+
+                curl_close($ch);
+
+                $data = json_decode($result, true);
+
+                return $data;
             }
-            ORDER BY DESC(BOUND(?pic)) DESC(?date)
-        ';
 
-        $searchResults = fetchWikidataResults($sparqlQuery);
+            $sparqlQuery = '
+            SELECT ?itemLabel ?pic ?date
+                WHERE {
+                    ?item wdt:P1476 ?itemLabel. # Title
+                    ?item wdt:P580 ?date.
+                    ?item wdt:P31 wd:Q5398426.  # Television series
+                    ?item wdt:P750 wd:Q54958752.  # Platform = Disney+
+                    OPTIONAL{
+                        ?item wdt:P154 ?pic.
+                    }
+                }
+                ORDER BY DESC(BOUND(?pic)) DESC(?date)
+            ';
 
-        //var_dump($searchResults);
+            $searchResults = fetchWikidataResults($sparqlQuery);
 
-        // Afficher les résultats dans des cartes HTML
-        foreach ($searchResults['results']['bindings'] as $result) {
-            $title = $result['itemLabel']['value'];
-            $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
+            foreach ($searchResults['results']['bindings'] as $result) {
+                $title = $result['itemLabel']['value'];
+                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
 
-            $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
 
-            $titleToSearch = $title; 
+                $titleToSearch = $title; 
 
-            echo '<div class="col-md-3 themed-grid-col">';
-            echo '<div class="card text-bg-dark" style="width:250px;">';
-            echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
-            echo '<div class="card-body">';
-            echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-        }
-        ?>
-    </div>
-</Section>
+                echo '<div class="col-md-3 themed-grid-col">';
+                echo '<div class="card text-bg-dark" style="width:250px;">';
+                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
+                echo '<div class="card-body">';
+                echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </Section>
 
     <?php require 'commun/footer.html'?>
 

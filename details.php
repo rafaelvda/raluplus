@@ -28,7 +28,6 @@
         function fetchWikidataResults($sparqlQuery) {
             $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
 
-            // Utilisez cURL pour récupérer les données JSON
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
@@ -49,12 +48,9 @@
 
         $titleToSearch = isset($_GET['title']) ? urldecode($_GET['title']) : '';
 
-        //var_dump($titleToSearch);
-
         ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
 
         $sparqlQuery = "
             SELECT ?itemLabel ?pic ?note ?award ?cost ?date ?dir ?duration ?episodes ?seasons
@@ -110,9 +106,6 @@ error_reporting(E_ALL);
 
             $searchResults = fetchWikidataResults($sparqlQuery);
 
-            //var_dump($searchResults);
-
-            // Afficher les résultats dans des cartes HTML
             foreach ($searchResults['results']['bindings'] as $result) {
                 $title = $result['itemLabel']['value'];
                 $dir = $result['dir']['value'];
@@ -150,13 +143,14 @@ error_reporting(E_ALL);
                 echo '<p id="txt" class="fs-6">Durée : ' . $duration . ' min</p>';
                 echo '<p id="txt" class="fs-6">Date de sortie : ' . $date . '</p>';
                 echo '<p id="txt" class="fs-6">Genre : </p>';
-                echo '<p id="txt" class="fs-6">Réalisation : ' . $dir . '</p>';
+                echo '<p id="txt" class="fs-6">Réalisation : <a href="' . $dir . '">' . $dir . '</a></p>';
 
                 echo '<p id="txt" class="fs-6">Episodes : ' . $episodes . '</p>';
                 echo '<p id="txt" class="fs-6">Saisons : ' . $seasons . '</p>';
 
-                echo '<p id="txt" class="fs-6">Budget : ' . $cost . '</p>';
-                echo '<p id="txt" class="fs-6">Récompense : ' . $award . '</p>';
+                echo '<p id="txt" class="fs-6">Budget : ' . $cost . ' $</p>';
+                echo '<p id="txt" class="fs-6">Récompense : <a href="' . $award . '">' . $award . '</a></p>';
+
                 echo '<p id="txt" class="fs-6">Note : ' . $note . '</p>';
                 echo '</section>';
             }

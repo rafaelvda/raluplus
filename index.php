@@ -80,7 +80,6 @@ session_start();
     </section>
 
     <script>
-    // Fonction pour rediriger vers une autre page
     function redirectToPage(pageUrl) {
         window.location.href = pageUrl;
     }

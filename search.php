@@ -37,90 +37,83 @@
     </div>
 
     <Section id="list">
-    <div class="row mb-3 text-leading">
-        <?php
+        <div class="row mb-3 text-leading">
+            <?php
 
-        function fetchWikidataResults($sparqlQuery) {
-            $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
+            function fetchWikidataResults($sparqlQuery) {
+                $url = 'https://query.wikidata.org/sparql?query=' . urlencode($sparqlQuery) . '&format=json';
 
-            // Utilisez cURL pour récupérer les données JSON
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-            curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+                curl_setopt($ch, CURLOPT_USERAGENT, 'YourApp/1.0');
 
-            $result = curl_exec($ch);
+                $result = curl_exec($ch);
 
-            if (curl_errno($ch)) {
-                echo 'Erreur cURL : ' . curl_error($ch);
+                if (curl_errno($ch)) {
+                    echo 'Erreur cURL : ' . curl_error($ch);
+                }
+
+                curl_close($ch);
+
+                $data = json_decode($result, true);
+
+                return $data;
             }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $searchQuery = isset($_POST['search_query']) ? $_POST['search_query'] : '';
 
-            curl_close($ch);
+                $sparqlQuery = "
+                SELECT ?itemLabel ?pic
+                WHERE {
+                {
+                    ?seriesItem wdt:P1476 ?itemLabel. # Title
+                    ?seriesItem wdt:P31 wd:Q5398426.  # Television series
+                    ?seriesItem wdt:P750 wd:Q54958752.  # Platform = Disney+
 
-            $data = json_decode($result, true);
+                    FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$searchQuery')))
+                    OPTIONAL {
+                    ?seriesItem wdt:P154 ?pic.
+                    }
+                }
+                UNION
+                {
+                    ?filmItem wdt:P1476 ?itemLabel. # Title
+                    ?filmItem wdt:P31 wd:Q11424.  # Film
+                    ?filmItem wdt:P750 wd:Q54958752.  # Platform = Disney+
 
-            return $data;
-        }
+                    FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$searchQuery')))
+                    OPTIONAL {
+                    ?filmItem wdt:P154 ?pic.
+                    }
+                }
+                }
+                ORDER BY DESC (?pic)
+                ";
 
-        // Vérifiez si le formulaire a été soumis
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérez la valeur de l'entrée de l'utilisateur
-            $searchQuery = isset($_POST['search_query']) ? $_POST['search_query'] : '';
+                $searchResults = fetchWikidataResults($sparqlQuery);
 
-            // Utilisez votre requête SPARQL ici pour récupérer les données
-            $sparqlQuery = "
-            SELECT ?itemLabel ?pic
-            WHERE {
-            {
-                ?seriesItem wdt:P1476 ?itemLabel. # Title
-                ?seriesItem wdt:P31 wd:Q5398426.  # Television series
-                ?seriesItem wdt:P750 wd:Q54958752.  # Platform = Disney+
+                foreach ($searchResults['results']['bindings'] as $result) {
+                    $title = $result['itemLabel']['value'];
+                    $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
 
-                FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$searchQuery')))
-                OPTIONAL {
-                ?seriesItem wdt:P154 ?pic.
+                    $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
+
+                    $titleToSearch = $title; 
+
+                    echo '<div class="col-md-3 themed-grid-col">';
+                    echo '<div class="card text-bg-dark" style="width:250px;">';
+                    echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
+                    echo '<div class="card-body">';
+                    echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
                 }
             }
-            UNION
-            {
-                ?filmItem wdt:P1476 ?itemLabel. # Title
-                ?filmItem wdt:P31 wd:Q11424.  # Film
-                ?filmItem wdt:P750 wd:Q54958752.  # Platform = Disney+
-
-                FILTER(CONTAINS(UCASE(?itemLabel), UCASE('$searchQuery')))
-                OPTIONAL {
-                ?filmItem wdt:P154 ?pic.
-                }
-            }
-            }
-            ORDER BY DESC (?pic)
-            ";
-
-            $searchResults = fetchWikidataResults($sparqlQuery);
-
-            // Afficher les résultats dans des cartes HTML
-            foreach ($searchResults['results']['bindings'] as $result) {
-                $title = $result['itemLabel']['value'];
-                $pic = isset($result['pic']['value']) ? $result['pic']['value'] : 'N/A';
-
-                $imageSrc = ($pic != 'N/A' && !empty($pic)) ? $pic : 'assets/ralu+w.png';
-
-                $titleToSearch = $title; 
-
-                // Générez une carte HTML pour chaque résultat
-                echo '<div class="col-md-3 themed-grid-col">';
-                echo '<div class="card text-bg-dark" style="width:250px;">';
-                echo '<img src="' . $imageSrc . '" class="card-img-top bg-white" alt="...">';
-                echo '<div class="card-body">';
-                echo '<a style="text-decoration:none; color:white" href="details.php?title=' . urlencode($titleToSearch) . '">' . $title . '</a>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-        }
-        ?>
-    </div>
-</Section>
+            ?>
+        </div>
+    </Section>
 
     <?php require 'commun/footer.html'?>
 
